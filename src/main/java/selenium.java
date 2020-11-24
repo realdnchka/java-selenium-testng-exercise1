@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -17,8 +18,13 @@ public class selenium {
     long randomNumber = rand.nextLong();
 
     @BeforeTest
-    public void launchBrowser() {
-        driver = new ChromeDriver();
+    @Parameters("browser")
+    public void launchBrowser(String browser) {
+        if (browser.equalsIgnoreCase("chrome")) {
+            driver = new ChromeDriver();
+        } else if (browser.equalsIgnoreCase("firefox")) {
+            driver = new FirefoxDriver();
+        }
         driver.manage().window().maximize();
         driver.get(baseUrl + "admin/");
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
